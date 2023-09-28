@@ -80,6 +80,7 @@ public class InputManager implements MouseListener, NativeMouseInputListener, Na
 	{
 		checkIfAutomated(mouseEvent);
 		setLastClick(mouseEvent.getX(), mouseEvent.getY());
+		log.info("Mouse clicked at X: {} Y: {}", lastClickX, lastClickY);
 		return mouseEvent;
 	}
 

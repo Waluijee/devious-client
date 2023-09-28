@@ -111,6 +111,7 @@ public class InteractionManager
 
 				case PACKETS:
 					SceneEntity myEntity = event.getEntity();
+					clickPoint = myEntity.getClickPoint().getAwtPoint();
 					Point clickPacket = clickPoint;
 					GameThread.invoke(() ->
 					{
@@ -118,9 +119,10 @@ public class InteractionManager
 						{
 							if (config.sendClickPacket())
 							{
-								setHoveredEntity(myEntity);
-								log.info("Sending click to [{}, {}]", clickPacket.x, clickPacket.y);
-								MousePackets.queueClickPacket(clickPacket.x, clickPacket.y);
+								int x = Math.max(clickPacket.x, 0);
+								int y = Math.max(clickPacket.y, 0);
+								log.info("Sending click to [{}, {}]", x, y);
+								MousePackets.queueClickPacket(x, y);
 							}
 
 							if (event.getOpcode() == MenuAction.CC_OP || event.getOpcode() == MenuAction.CC_OP_LOW_PRIORITY)
