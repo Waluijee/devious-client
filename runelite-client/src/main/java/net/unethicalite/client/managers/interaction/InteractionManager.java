@@ -110,13 +110,17 @@ public class InteractionManager
 					break;
 
 				case PACKETS:
+					SceneEntity myEntity = event.getEntity();
+					Point clickPacket = clickPoint;
 					GameThread.invoke(() ->
 					{
 						try
 						{
 							if (config.sendClickPacket())
 							{
-								MousePackets.queueClickPacket();
+								setHoveredEntity(myEntity);
+								log.info("Sending click to [{}, {}]", clickPacket.x, clickPacket.y);
+								MousePackets.queueClickPacket(clickPacket.x, clickPacket.y);
 							}
 
 							if (event.getOpcode() == MenuAction.CC_OP || event.getOpcode() == MenuAction.CC_OP_LOW_PRIORITY)
