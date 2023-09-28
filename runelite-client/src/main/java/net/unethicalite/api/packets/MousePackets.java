@@ -13,7 +13,7 @@ public class MousePackets
     public static void queueClickPacket(int x, int y)
     {
         Random rand = new Random();
-        int mousePressedTime = rand.nextInt(88) + 44;
+        int mousePressedTime = rand.nextInt(55) + 33;
         MousePackets.queueClickPacket(mousePressedTime, x, y);
     }
 
