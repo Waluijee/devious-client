@@ -110,17 +110,24 @@ public class InteractionManager
 					break;
 
 				case PACKETS:
-					SceneEntity myEntity = event.getEntity();
-					clickPoint = myEntity.getClickPoint().getAwtPoint();
-					Point clickPacket = clickPoint;
+					if (event.getOpcode() == MenuAction.WALK && clickOffScreen(clickPoint))
+					{
+						net.runelite.api.Point newPoint = CoordUtils.localToMinimap(client,
+								LocalPoint.fromScene(event.getParam0(), event.getParam1()), 6400);
+						if (newPoint != null)
+						{
+							clickPoint = newPoint.getAwtPoint();
+						}
+					}
+					Point clickPacketPoint = clickPoint;
 					GameThread.invoke(() ->
 					{
 						try
 						{
 							if (config.sendClickPacket())
 							{
-								int x = Math.max(clickPacket.x, 0);
-								int y = Math.max(clickPacket.y, 0);
+								int x = Math.max(clickPacketPoint.x, 0);
+								int y = Math.max(clickPacketPoint.y, 0);
 								log.info("Sending click to [{}, {}]", x, y);
 								MousePackets.queueClickPacket(x, y);
 							}
